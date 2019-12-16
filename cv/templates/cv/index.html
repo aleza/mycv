@@ -1,0 +1,135 @@
+{% load bootstrap4 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% bootstrap_messages %}
+
+{% csrf_token %}
+{% for field in form %}
+    {% bootstrap_field field %}
+{% endfor %}
+
+
+<div class="card">
+
+	<div class="card-header text-left" style="margin-bottom:0">
+		<h3 class="card-title" align="center">Resume :</h3>
+	</div>
+
+	<div class="card-body">
+		{% if latest_personal_list %}
+    	<ul class="list-group, csrf_token">
+    		{% for person in latest_personal_list %}
+        	<li class="list-group-item list-group-item-action">
+                <h4 class="card-title">{{ person.name }} {{ person.surname }}</h4>
+        	</li>
+            <li class="list-group-item list-group-item-action">
+                <a href="{% url 'cv:detail_r' %}">
+                    Brief introduction  
+                </a>
+            </li>            
+    		{% endfor %}
+    	</ul>
+		{% else %}
+    		<p>No CV is available.</p>
+		{% endif %}
+		
+		{% if latest_personal_list %}		
+    	<ul class="list-group, csrf_token">
+    		{% for person in latest_personal_list %}    	
+            <button type="button" class="list-group-item list-group-item-action active">
+                Contact:
+            </button>           
+        	<li class="list-group-item list-group-item-action">
+        		Phone: {{ person.telephone }}
+        	</li>
+            <li class="list-group-item list-group-item-action">
+                Email :{{ person.email }}
+            </li>
+            <li class="list-group-item list-group-item-action">
+                <a href="{% url 'cv:detail_d' person.id %}">
+                    See more...                  
+                </a>
+            </li>            
+    		{% endfor %}        	
+    	</ul>
+		{% else %}
+    		<p>No Education is available.</p>
+		{% endif %}			    	
+		
+		{% if latest_personal_list %}		
+    	<ul class="list-group, csrf_token">
+            <button type="button" class="list-group-item list-group-item-action active">
+                Titles:
+            </button>           
+            {% for education in latest_education_list %}
+            <li class="list-group-item list-group-item-action">
+                {{ education.titles }}
+            </li>
+            {% endfor %}
+    		{% for person in latest_personal_list %}    	
+        	<li class="list-group-item list-group-item-action">
+        		<a href="{% url 'cv:detail_e' person.id %}">
+        			Complete education
+        		</a>
+        	</li>
+    		{% endfor %}        	
+    	</ul>
+		{% else %}
+    		<p>No Education is available.</p>
+		{% endif %}			    	
+	
+		{% if latest_personal_list %}		
+    	<ul class="list-group, csrf_token">
+            <button type="button" class="list-group-item list-group-item-action active">
+                Courses:
+            </button>           
+            {% for courses in latest_courses_list %}
+            <li class="list-group-item list-group-item-action">
+                {{ courses.courses }}
+            </li>
+            {% endfor %}
+
+    		{% for person in latest_personal_list %}    	
+        	<li class="list-group-item list-group-item-action">
+        		<a href="{% url 'cv:detail_c' person.id %}">
+        			all the Courses 
+        		</a>
+        	</li>
+    		{% endfor %}        	
+    	</ul>
+		{% else %}
+    		<p>No Course is available.</p>
+		{% endif %}		
+
+        {% if latest_hobbie_list %} 
+        <ul class="list-group, csrf_token">
+            <button type="button" class="list-group-item list-group-item-action active">
+                Hobbies:
+            </button>
+            {% for person in latest_hobbie_list %}      
+            <li class="list-group-item list-group-item-action">
+                {{ person.hobbies }}
+            </li>
+            {% endfor %}  
+            <li class="list-group-item list-group-item-action">
+            {% if latest_personal_list %}
+                {% for person in latest_personal_list %}        
+                    <a href="{% url 'cv:detail_h' person.id %}">                    
+                        More hobbies                
+                    </a>     
+                {% endfor %}    
+            {% endif %} 
+            </li>
+        </ul>
+        {% else %}
+            <p>No Education is available.</p>
+        {% endif %}                 
+
+	</div>
+
+
+
+
+</div>

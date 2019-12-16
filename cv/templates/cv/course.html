@@ -1,0 +1,41 @@
+{% load bootstrap4 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% bootstrap_messages %}
+
+{% csrf_token %}
+{% for field in form %}
+    {% bootstrap_field field %}
+{% endfor %}
+
+<div class="card">
+
+	<div class="card-header text-left" style="margin-bottom:0">
+		<h4 class="card-title" align="center">Courses :</h4>
+	</div>
+
+	<div class="card-body">
+		{% if latest_courses_list %}
+    	<ul class="list-group, csrf_token">
+    		{% for detail in latest_courses_list %}
+        	<li class="list-group-item list-group-item-action">
+        		{{ detail.courses }}
+        	</li>
+    		{% endfor %}
+    	</ul>
+		{% else %}
+    		<p>No Resume is available.</p>
+		{% endif %}
+	
+        <ul class="list-group, csrf_token">
+            <li class="list-group-item list-group-item-action">
+                <a href="{% url 'cv:index' %}">
+                    <input type="Button" name="Candidate" value="Candidate" class="btn btn-info">
+                </a>
+            </li>
+        </ul>
+	</div>
+
+</div>
